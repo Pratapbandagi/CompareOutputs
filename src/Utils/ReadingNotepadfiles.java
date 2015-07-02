@@ -5,28 +5,25 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class ReadingNotepadfiles {
 
-	private final Map<String, TagBean> tagBeansWordMap = new HashMap<String, TagBean>();
 	private final Set<TagBean> tagBeans = new HashSet<TagBean>();
 	private final Set<RelationshipBean> tagRelationshipBeans = new HashSet<RelationshipBean>();
 
-	private final Map<String, TagBean> tagBeansWordMap1 = new HashMap<String, TagBean>();
 	private final Set<TagBean> tagBeans1 = new HashSet<TagBean>();
 	private final Set<RelationshipBean> tagRelationshipBeans1 = new HashSet<RelationshipBean>();
 
-	private final Map<String, TagBean> tagBeansWordMap2 = new HashMap<String, TagBean>();
 	private final Set<TagBean> tagBeans2 = new HashSet<TagBean>();
 	private final Set<RelationshipBean> tagRelationshipBeans2 = new HashSet<RelationshipBean>();
 
-	private final Map<String, TagBean> tagBeansWordMap3 = new HashMap<String, TagBean>();
 	private final Set<TagBean> tagBeans3 = new HashSet<TagBean>();
 	private final Set<RelationshipBean> tagRelationshipBeans3 = new HashSet<RelationshipBean>();
+	
+	private final Set<TagBean> tagBeans4 = new HashSet<TagBean>();
+	private final Set<RelationshipBean> tagRelationshipBeans4 = new HashSet<RelationshipBean>();
     /**
      * @author Pratap 
      *  :Internally this Method Calls Reading Notepad File Method
@@ -67,6 +64,11 @@ public class ReadingNotepadfiles {
 		return tagInput3;
 	}
 
+	public TagInput extratFromOutputNotepad30th(String textfilepath) throws FileNotFoundException {
+		readingOutputNotepadRanjeet(textfilepath);
+		TagInput tagInput4 = new TagInput(tagBeans4, null);
+		return tagInput4;
+	}
 
 
 	public void readingOutputNotepad(String textfilepath) throws FileNotFoundException {
@@ -256,4 +258,28 @@ public class ReadingNotepadfiles {
 
 	}
 
+	
+
+	public void readingOutputNotepadRanjeet(String textfilepath) throws FileNotFoundException {
+
+		FileReader fileReader = new FileReader(textfilepath);
+		try (BufferedReader br = new BufferedReader(fileReader)) {
+			String sCurrentLine;
+			int i = 0;
+			TagBean startTagBean = null;
+			while ((sCurrentLine = br.readLine()) != null) {
+				
+				String tagword = sCurrentLine;
+				TagBean tag = new TagBean(tagword);
+				tagBeans4.add(tag);
+			}
+			} catch (IOException e) {
+			System.out.println("Got Exception " + e);
+		}
+
+		System.out.println("Tags Beans size of Output Notepad :" + tagBeans4.size());
+		//System.out.println("TagBeans4 :"+tagBeans4);
+	}
+	
+	
 }

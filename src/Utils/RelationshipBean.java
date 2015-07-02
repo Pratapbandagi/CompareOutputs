@@ -7,13 +7,12 @@ public class RelationshipBean {
 	private TagBean tagBeanEnd;
 	private RelationshipType relationShipType;
 	private double relationshipWeight;
-
+	
 	public RelationshipBean(TagBean tagBeanStart, TagBean tagBeanEnd ) {
 		super();
 		this.setTagBeanStart(tagBeanStart);
 		this.setTagBeanEnd(tagBeanEnd);
 	}
-
 	public RelationshipType getRelationShipType() {
 		return relationShipType;
 	}
@@ -22,13 +21,13 @@ public class RelationshipBean {
 		this.relationShipType = relationShipType;
 	}
 
-	// public double getRelationshipWeight() {
-	// return relationshipWeight;
-	// }
-	//
-	// public void setRelationshipWeight(double relationshipWeight) {
-	// this.relationshipWeight = relationshipWeight;
-	// }
+	 public double getRelationshipWeight() {
+	 return relationshipWeight;
+	 }
+	
+	 public void setRelationshipWeight(double relationshipWeight) {
+	 this.relationshipWeight = relationshipWeight;
+	 }
 
 	public TagBean getTagBeanStart() {
 		return tagBeanStart;
@@ -49,7 +48,7 @@ public class RelationshipBean {
 	@Override
 	public String toString() {
 		System.out.println("");
-		return "RelationshipBean [tagBeanStart=" + tagBeanStart + ", has relationShipType=" + relationShipType+ ", with tagBeanEnd=" + tagBeanEnd + "]";
+		return "RelationshipBean [tagBeanStart=" + tagBeanStart + ", has relationShipType=" + relationShipType + ", with tagBeanEnd=" + tagBeanEnd + "]";
 		
 
 	}

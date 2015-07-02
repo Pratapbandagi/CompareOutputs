@@ -1,9 +1,7 @@
 package Utils;
 
 
-
-
 public enum RelationshipType {
 
-	IS_PARENT, IS_CHILD, IS_RELATED
+	IS_PARENT, IS_CHILD
 }

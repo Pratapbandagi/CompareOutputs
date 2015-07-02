@@ -1,27 +1,64 @@
 package Utils;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 
 
 public class DBconnection {
-   
+	
 	
 	private final Set<TagBean> tagBeans = new HashSet<TagBean>();
+	private final Set<RelationshipBean> relationshipBeans = new HashSet<RelationshipBean>();
 	
-	public TagInput extractBaseTagFromDataBase(String ExecQuery) throws FileNotFoundException {
-		getBaseTags(ExecQuery);
-		TagInput b1 = new TagInput(tagBeans,null);
-		return b1;
+	/**
+	 * @author Pratap
+	 * @param Query
+	 * Pass Query which gives basetag and child tag as output
+	 * @throws IOException
+	 */	
+	public TagInput extractTagsFromDataBase(String ExecQuery) throws IOException {
+		getTags(ExecQuery);
+		TagInput tagBean = new TagInput(tagBeans,relationshipBeans);
+		return tagBean;
 	}
 	
-
-	public void getBaseTags(String Query) {
+/**
+ * @author Pratap
+ * @param Query
+ * Pass Query which gives basetag and child tag as output
+ * @throws IOException
+ */
+	@SuppressWarnings("unused")
+	public void getTags(String Query) throws IOException {
+        
+		File file = new File("resources//config.properties");
+		FileInputStream fileInput = new FileInputStream(file);
+		Properties prop = new Properties();
+		
+ 
+		if (fileInput != null) {
+			prop.load(fileInput);
+		} else {
+			throw new FileNotFoundException("property file '" + fileInput + "' not found in the classpath");
+		}
+		
+		String Hostname = prop.getProperty("hostname");
+		String port = prop.getProperty("port");
+		String SID = prop.getProperty("SID");
+		String username = prop.getProperty("username");
+		String password = prop.getProperty("password");
+		
+ 
 		ResultSet results;
 		TagBean tagBean1 = null;
 		TagBean tagBean2 = null;
@@ -35,8 +72,8 @@ public class DBconnection {
 		System.out.println("Oracle JDBC Driver Registered!");
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:oracle:thin:@192.168.2.3:1521:ORCL11G", "SPIREDBATOS1032",
-					"SPIREDBATOS1032");
+			  String Connection1 = "jdbc:oracle:thin:@"+Hostname+":"+port+":"+SID;
+			  connection = DriverManager.getConnection(Connection1,username,password);
 		} catch (SQLException e) {
 			System.out.println("Connection Failed! Check output console");
 			e.printStackTrace();
@@ -53,6 +90,8 @@ public class DBconnection {
 					tagBean2 = new TagBean(ChildTag);
 					tagBeans.add(tagBean1);
 					tagBeans.add(tagBean2);
+					RelationshipBean relationshipBean = new RelationshipBean(tagBean1, tagBean2);
+					relationshipBeans.add(relationshipBean);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -60,7 +99,6 @@ public class DBconnection {
 		} else {
 			System.out.println("Failed to make connection!");
 		}
-		//System.out.println("Tags fom DB : "+tagBeans);
 		System.out.println("Tags fom DB : "+tagBeans.size());
 	}
 	
